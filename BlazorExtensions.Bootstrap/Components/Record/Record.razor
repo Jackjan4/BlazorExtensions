@@ -1,0 +1,179 @@
+﻿@using Microsoft.AspNetCore.Components.Web
+
+@{
+    var styleString = Clickable ? "cursor: pointer;" : "";
+    var cardSelectClass = Selected ? "border-dark border-2" : string.Empty;
+
+    var bgColor = Color switch {
+        BackgroundColor.Primary => "text-bg-primary",
+        BackgroundColor.Secondary => "text-bg-secondary",
+        BackgroundColor.Success => "text-bg-success",
+        BackgroundColor.Danger => "text-bg-danger",
+        BackgroundColor.Warning => "text-bg-warning",
+        BackgroundColor.Info => "text-bg-info",
+        BackgroundColor.Light => "text-bg-light",
+        BackgroundColor.Dark => "text-bg-dark",
+        _ => ""
+    };
+
+    var btnDeleteColor = Color switch {
+        BackgroundColor.Danger => "btn-outline-light",
+        _ => "btn-outline-danger"
+    };
+}
+
+<div class="card shadow-sm rounded-3 @cardSelectClass @bgColor @_additionalClass" style="@styleString @_additionalStyle" @onclick="OnCardClick">
+
+    @if (!string.IsNullOrEmpty(HeaderText)) {
+        <!-- Card Header-->
+        <div class="card-header p-1 ps-3 pt-2 pe-2">
+            @HeaderText
+        </div>
+    }
+
+
+    <!-- Card Body-->
+    <div class="card-body p-2 d-flex flex-column">
+
+        <div class="d-flex align-items-center mb-2">
+            <div class="text-seconardy m-0" style="font-size: 0.75rem;">@MiniTitle</div>
+            <h5 class="m-0 text-truncate card-title">@Title</h5>
+
+            @if (!string.IsNullOrEmpty(IconImg)) {
+                <img class="ms-auto m-0 p-0" style="height: 1.9rem; width: auto;" src="@IconImg" alt="" />
+            } else {
+                <div class="bi @Icon h3 ms-auto m-0 p-0"></div>
+            }
+
+        </div>
+
+        @ChildContent
+
+        <div class="d-flex mt-auto flex-row-reverse gap-2 w-100">
+
+            @* Remove Record button *@
+            <button class="btn @btnDeleteColor p-1" style="z-index: 2;" @onclick:stopPropagation="true" @onclick="OnDeleteBtnClick">
+                <div class="bi bi-trash h5 m-0 p-0"></div>
+            </button>
+
+            @* Edit Record button *@
+            @if (Editable) {
+                <button class="btn btn-outline-primary p-1" style="z-index: 2;" @onclick:stopPropagation="true" @onclick="OnEditBtnClick">
+                    <div class="bi bi-pencil h5 m-0 p-0"></div>
+                </button>
+            }
+        </div>
+
+    </div>
+</div>
+
+
+@code {
+    [Parameter]
+    public int? Id { get; set; }
+
+    [Parameter]
+    public string? MiniTitle { get; set; }
+
+    [Parameter]
+    public string? Title { get; set; }
+
+    [Parameter]
+    public string Icon { get; set; } = string.Empty;
+
+    [Parameter]
+    public string IconImg { get; set; } = string.Empty;
+
+    [Parameter]
+    public string HeaderText { get; set; } = string.Empty;
+
+    [Parameter]
+    public BackgroundColor Color { get; set; }
+
+    [Parameter]
+    public object? Tag { get; set; }
+
+    [Parameter]
+    public bool Clickable { get; set; } = false;
+
+    [Parameter]
+    public bool Selectable { get; set; } = false;
+
+    [Parameter]
+    public bool Editable { get; set; } = false;
+
+    [Parameter]
+    public bool Selected { get; set; } = false;
+
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    [Parameter]
+    public EventCallback<RecordEventArgs> OnEditClick { get; set; }
+
+    [Parameter]
+    public EventCallback<RecordEventArgs> OnDeleteClick { get; set; }
+
+    [Parameter]
+    public EventCallback<RecordEventArgs> OnClick { get; set; }
+
+    [Parameter]
+    public EventCallback<RecordSelectEventArgs> OnSelectChanged { get; set; }
+
+    [Parameter(CaptureUnmatchedValues = true)]
+    public IDictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private string _additionalClass = "";
+
+    private string _additionalStyle = "";
+
+    protected override void OnParametersSet() {
+        // Get the "class" attribute, if given
+        if (AdditionalAttributes != null && AdditionalAttributes.TryGetValue("class", out var attribute)) {
+            _additionalClass = attribute.ToString() ?? string.Empty;
+        }
+
+        // Get the "style" attribute, if given
+        if (AdditionalAttributes != null && AdditionalAttributes.TryGetValue("style", out var styleAttr)) {
+            _additionalStyle = styleAttr.ToString() ?? string.Empty;
+        }
+    }
+
+
+    /// <summary>
+    ///
+    /// </summary>
+    /// <param name="e"></param>
+    private async Task OnEditBtnClick(MouseEventArgs e) {
+        if (Editable)
+            await OnEditClick.InvokeAsync(new RecordEventArgs(this));
+    }
+
+
+
+    /// <summary>
+    ///
+    /// </summary>
+    /// <param name="e"></param>
+    /// <returns></returns>
+    private async Task OnDeleteBtnClick(MouseEventArgs e) {
+        await OnDeleteClick.InvokeAsync(new RecordEventArgs(this));
+    }
+
+
+
+    /// <summary>
+    ///
+    /// </summary>
+    /// <returns></returns>
+    private async Task OnCardClick() {
+        if (Clickable) {
+            await OnClick.InvokeAsync(new RecordEventArgs(this));
+            if (Selectable) {
+                Selected = !Selected;
+                await OnSelectChanged.InvokeAsync(new RecordSelectEventArgs(this, Selected));
+            }
+        }
+    }
+
+}

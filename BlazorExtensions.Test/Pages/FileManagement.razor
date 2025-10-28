@@ -1,0 +1,37 @@
+﻿@page "/filemanager"
+@using Brandgroup.BlazorExtensions.Bootstrap.Components.FileManager
+
+@rendermode @(new InteractiveServerRenderMode(prerender: false))
+
+<PageTitle>FileManager</PageTitle>
+
+
+<div class="container-fluid subpage subpage-padded">
+    
+    <div class="h-100 pb-3">
+        <FileManager class="h-100" FileSystemProvider="_fsProvider" />
+    </div>
+    
+</div>
+
+
+
+
+
+
+@code {
+
+    private IFileSystemProvider _fsProvider;
+
+
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <returns></returns>
+    protected override async Task OnInitializedAsync()
+    {
+        _fsProvider = new DiskFileSystemProvider(@"\\srvfbapp\brand_tools$\ImpEdit\setup");
+    }
+
+}

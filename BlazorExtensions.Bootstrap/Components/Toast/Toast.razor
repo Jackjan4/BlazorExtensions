@@ -1,0 +1,93 @@
+﻿@using Microsoft.JSInterop
+
+@inject IJSRuntime Js
+
+@* A Toast is a component that pops up a notification to the user. *@
+@* Usually they show up at a corner of the screen and can automatically disappear after some time. *@
+@* It can be structured with a header and a body that are separated by a horizontal line. *@
+
+
+@{
+    var bgColor = BackgroundColor switch {
+        BackgroundColor.Primary => "text-bg-primary",
+        BackgroundColor.Secondary => "text-bg-secondary",
+        BackgroundColor.Success => "text-bg-success",
+        BackgroundColor.Danger => "text-bg-danger",
+        BackgroundColor.Warning => "text-bg-warning",
+        BackgroundColor.Info => "text-bg-info",
+        BackgroundColor.Light => "text-bg-light",
+        BackgroundColor.Dark => "text-bg-dark",
+        _ => ""
+    };
+}
+
+<div @ref="_toastElement" id="@Id" class="toast @bgColor" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="@Delay" data-bs-animation="@(Animation ? "true" : "false")" data-bs-autohide="@(Autohide ? "true" : "false")">
+    @if (HasHeader) {
+        <div class="toast-header">
+            @ToastHeader
+        </div>
+    }
+    <div class="toast-body">
+        @ToastBody
+    </div>
+</div>
+
+<script>
+    ﻿window.blazorExtensions = window.blazorExtensions || {};
+
+    window.blazorExtensions.toast = {
+            show: (el) => {
+                const toast = bootstrap.Toast.getOrCreateInstance(el)
+                toast.show();
+            },
+            hide: (el) => {
+                    const toast = bootstrap.Toast.getOrCreateInstance(el)
+                    toast.hide();
+                }
+    }
+</script>
+
+
+
+@code {
+
+    [Parameter]
+    public string? Id { get; set; }
+
+    [Parameter]
+    public bool Animation { get; set; } = true;
+
+    [Parameter]
+    public bool Autohide { get; set; } = true;
+
+    [Parameter]
+    public int Delay { get; set; } = 5000;
+
+    [Parameter]
+    public BackgroundColor BackgroundColor { get; set; } = BackgroundColor.Default;
+
+    [Parameter]
+    public bool HasHeader { get; set; } = true;
+
+    [Parameter]
+    public RenderFragment? ToastHeader { get; set; }
+
+    [Parameter]
+    public RenderFragment? ToastBody { get; set; }
+
+    private ElementReference _toastElement;
+
+
+
+    /// <summary>
+    ///
+    /// </summary>
+    /// <returns></returns>
+    public async Task ShowAsync() {
+        await Js.InvokeVoidAsync("blazorExtensions.toast.show", _toastElement);
+    }
+
+    public async Task HideAsync() {
+        await Js.InvokeVoidAsync("blazorExtensions.toast.hide", _toastElement);
+    }
+}

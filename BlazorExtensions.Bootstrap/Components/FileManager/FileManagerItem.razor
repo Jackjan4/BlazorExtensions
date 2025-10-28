@@ -1,0 +1,48 @@
+﻿@using Microsoft.AspNetCore.Components.Web
+
+@{
+    var icon = File.Type switch {
+        FileManagerItemType.Pdf => "bi-file-earmark-pdf",
+        FileManagerItemType.Excel => "bi-file-earmark-spreadsheet",
+        FileManagerItemType.Text => "bi-file-earmark-text",
+        FileManagerItemType.Richtext => "bi-file-earmark-richtext",
+        FileManagerItemType.Image => "bi-file-earmark",
+        FileManagerItemType.Folder => "bi-folder",
+        FileManagerItemType.Unspecified => "bi-file-earmark",
+        _ => "bi-question-circle"
+    };
+
+    var selectedClass = Selected ? "file-manager-item-selected" : "";
+}
+
+<div class="vstack align-items-center file-manager-item @selectedClass" style="min-width:7.25rem;" @onclick="OnClickCore">
+    <i class="bi @icon hover-text" style="font-size:3.5rem;"></i>
+    <span class="d-inline-block text-truncate" style="font-size: 0.75rem; max-width:6.75rem;">@File.Name</span>
+</div>
+
+@code {
+
+    [Parameter]
+    public FileManagerFile? File { get; set; }
+
+    [Parameter]
+    public bool Selected { get; set; } = false;
+
+    [Parameter]
+    public EventCallback<FileManagerItemClickEventArgs> OnClick { get; set; }
+
+
+
+    /// <summary>
+    ///
+    /// </summary>
+    /// <returns></returns>
+    private async Task OnClickCore() {
+
+        if (OnClick.HasDelegate) {
+            await OnClick.InvokeAsync(new FileManagerItemClickEventArgs(this));
+        }
+
+        Selected = !Selected;
+    }
+}

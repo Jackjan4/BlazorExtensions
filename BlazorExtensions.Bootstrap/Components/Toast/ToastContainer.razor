@@ -1,0 +1,30 @@
+﻿@{
+    var toastPosition = Position switch {
+        Position.TopLeft => "top-0 start-0",
+        Position.TopCenter => "top-0 start-50",
+        Position.TopRight => "top-0 end-0",
+        Position.MiddleLeft => "top-50 start-0",
+        Position.MiddleCenter => "top-50 start-50",
+        Position.MiddleRight => "top-50 end-0",
+        Position.BottomLeft => "bottom-0 start-0",
+        Position.BottomCenter => "bottom-0 start-50",
+        Position.BottomRight => "bottom-0 end-0",
+        _ => "bottom-0 end-0"
+    };
+}
+
+<div class="toast-container position-fixed @toastPosition p-3">
+    @ChildContent
+</div>
+
+
+
+@code {
+
+    [Parameter]
+    public Position Position { get; set; } = Position.BottomRight;
+
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+}

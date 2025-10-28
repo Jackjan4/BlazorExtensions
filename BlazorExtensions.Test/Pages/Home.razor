@@ -1,0 +1,112 @@
+﻿@page "/"
+@using Brandgroup.BlazorExtensions.Bootstrap
+@using Brandgroup.BlazorExtensions.Bootstrap.Components.Alert
+@using Brandgroup.BlazorExtensions.Bootstrap.Components.Modal
+@using Brandgroup.BlazorExtensions.Bootstrap.Components.Toast
+@using Brandgroup.BlazorExtensions.Components.DirectoryFilePicker
+@using Brandgroup.BlazorExtensions.Bootstrap.Components.Record
+
+
+@rendermode @(new InteractiveServerRenderMode(prerender: false))
+
+<PageTitle>Home</PageTitle>
+
+<h1>Hello, world!</h1>
+
+<Modal @ref="_modal" Center="true" Size="ModalSize.Small"></Modal>
+
+<Record MiniTitle="Mini Title" Title="Title123" IconImg="/test_icon.ico" Selectable="true" style="width:18rem">
+</Record>
+
+<FormModal @ref="_testModal" Size="ModalSize.Small" Id="TestModal" Title="User Bearbeiten" ShowCloseButton="true" ShowCancelButton="true">
+    <button type="button" class="btn btn-primary">Test</button>
+</FormModal>
+
+<DialogModal @ref="_dialogModal" Title="This is a DialogModal" ShowCancelButton="true" ShowCloseButton="true" AcceptButtonColor="BackgroundColor.Danger" Message="Sorry to interrupt you, but you need to confirm something for me here.">
+</DialogModal>
+
+<button class="btn btn-primary" type="button" @onclick="ShowModal">Show Modal</button>
+
+<button class="btn btn-primary" type="button" @onclick="ShowToast">Show Toast</button>
+
+<button class="btn btn-primary" type="button" @onclick="ShowAlertToast">Show AlertToast</button>
+
+<button class="btn btn-primary" type="button" @onclick="ShowAlert">Close Alert</button>
+
+<button class="btn btn-primary" type="button" @onclick="ShowDialogModal">Show DialogModal</button>
+
+<DirectoryFilePicker OnFilesSelected="@OnFilesSelected" @rendermode="InteractiveServer" MaximumFileCount="600" class="form-control"></DirectoryFilePicker>
+
+<ToastContainer>
+    <Toast @ref="_toast" Autohide="true" Animation="false" Delay="4000">
+        <ToastHeader>
+            <strong class="me-auto">Bootstrap</strong>
+            <small>X mins ago</small>
+        </ToastHeader>
+        <ToastBody>
+            Hello, world! This is a toast message.
+        </ToastBody>
+    </Toast>
+
+    <AlertToast @ref="_alertToast" BackgroundColor="BackgroundColor.Success" Message="AlertTest" />
+</ToastContainer>
+
+<Alert class="m-3" @ref="_alert" Type="BackgroundColor.Danger">
+    <Header>
+        <h4>Alert Header</h4>
+    </Header>
+    <Body>
+        This is the body of the Alert.
+        <br />
+       
+        For example the reason why this alert is visible, what happens now and what to do. Maybe the Alert is just info and this info is given here.<br/>
+        This body doesn't need to be just text. It can be everything you want it to be. Just put it here.
+    </Body>
+</Alert>
+
+
+
+@code
+{
+    private FormModal? _testModal;
+
+    private DialogModal? _dialogModal;
+
+    private Modal? _modal;
+
+    private Toast? _toast;
+
+    private AlertToast? _alertToast;
+
+    private Alert? _alert;
+
+    private async Task ShowModal()
+    {
+        await _modal?.ShowAsync();
+    }
+
+    private async Task ShowToast()
+    {
+        await _toast?.ShowAsync();
+    }
+
+    private async Task ShowAlertToast()
+    {
+        await _alertToast?.ShowAsync();
+    }
+
+    private async Task ShowAlert()
+    {
+        await _alert.CloseAsync();
+    }
+
+    private async Task ShowDialogModal()
+    {
+        await _dialogModal?.ShowAsync();
+    }
+
+    private void OnFilesSelected(FilePickerSelectedEventArgs evtArgs)
+    {
+
+    }
+}
