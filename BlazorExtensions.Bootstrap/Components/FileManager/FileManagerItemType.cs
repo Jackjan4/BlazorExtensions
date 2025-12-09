@@ -1,4 +1,4 @@
-﻿namespace Brandgroup.BlazorExtensions.Bootstrap.Components;
+﻿namespace Roslan.BlazorExtensions.Bootstrap.Components;
 
 public enum FileManagerItemType {
     Excel,

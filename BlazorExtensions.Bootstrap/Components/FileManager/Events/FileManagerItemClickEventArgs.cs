@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics.CodeAnalysis;
-using Brandgroup.BlazorExtensions.Bootstrap.Components.FileManager;
+using Roslan.BlazorExtensions.Bootstrap.Components.FileManager;
 
-namespace Brandgroup.BlazorExtensions.Bootstrap.Components;
+namespace Roslan.BlazorExtensions.Bootstrap.Components;
 
 public class FileManagerItemClickEventArgs : EventArgs {
 

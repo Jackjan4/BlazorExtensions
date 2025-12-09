@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 
-namespace Brandgroup.BlazorExtensions.Bootstrap.Components;
+namespace Roslan.BlazorExtensions.Bootstrap.Components;
 
 public class FileManagerDownloadRequestEventArgs {
 

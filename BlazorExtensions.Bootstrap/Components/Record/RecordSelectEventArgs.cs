@@ -1,4 +1,4 @@
-﻿namespace Brandgroup.BlazorExtensions.Bootstrap.Components;
+﻿namespace Roslan.BlazorExtensions.Bootstrap.Components;
 
 
 

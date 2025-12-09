@@ -2,7 +2,7 @@
 
 
 
-namespace Brandgroup.BlazorExtensions.Components;
+namespace Roslan.BlazorExtensions.Components;
 
 
 

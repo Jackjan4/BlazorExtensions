@@ -1,19 +1,19 @@
 <Project Sdk="Microsoft.NET.Sdk.Razor">
 
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFramework>net10.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
-    <AssemblyName>Brandgroup.BlazorExtensions.Bootstrap</AssemblyName>
-    <RootNamespace>Brandgroup.BlazorExtensions.Bootstrap</RootNamespace>
+    <AssemblyName>Roslan.BlazorExtensions.Bootstrap</AssemblyName>
+    <RootNamespace>Roslan.BlazorExtensions.Bootstrap</RootNamespace>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-    <PackageId>Brandgroup.BlazorExtensions.Bootstrap</PackageId>
+    <PackageId>Roslan.BlazorExtensions.Bootstrap</PackageId>
     <Title>BlazorExtensions.Bootstrap</Title>
-    <Version>1.9.6</Version>
+    <Version>1.0.0</Version>
     <Authors>Jan-Philipp Roslan</Authors>
-    <Company>brandgroup</Company>
-    <Product>Brandgroup.BlazorExtensions</Product>
+    <Company></Company>
+    <Product>Roslan.BlazorExtensions</Product>
     <RepositoryType>git</RepositoryType>
     <NeutralLanguage>en</NeutralLanguage>
     <AssemblyVersion>1.9.6</AssemblyVersion>

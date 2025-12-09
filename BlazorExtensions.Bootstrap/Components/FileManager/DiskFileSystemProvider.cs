@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components.Forms;
 
-namespace Brandgroup.BlazorExtensions.Bootstrap.Components;
+namespace Roslan.BlazorExtensions.Bootstrap.Components;
 
 public class DiskFileSystemProvider(string rootPath) : IFileSystemProvider {
 
